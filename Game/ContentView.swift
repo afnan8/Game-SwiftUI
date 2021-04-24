@@ -1,6 +1,6 @@
 //
 //  ContentView.swift
-//  Week11
+//  Game
 //
 //  Created by Afnan MacBook Pro on 20/04/2021.
 //
@@ -9,58 +9,54 @@ import SwiftUI
 
 struct ContentView: View {
     
-    @State var text1 = ""
-    @State var text2 =  ""
-    @State var text3 =  ""
-    @State var text4 =  ""
-    @State var text5 =  ""
-
-    var firstResult = "Cat".lowercased()
-    var secondResult = "Car".lowercased()
-    
-    @State var firstInput = ""
+    @ObservedObject var gameModel = GameModel()
     
     var body: some View {
         VStack {
             Spacer()
             VStack {
                 ZStack(alignment: .topLeading) {
-                    RoundedTextField(text: $text1, backgroundColor: Color.red)
-                        .onChange(of: text1) { value in
-                        firstInput.append(value)
-                        print(firstInput)
-                    }
+                    RoundedTextField(text: $gameModel.text1, backgroundColor: Color.red)
                     TextNumber(number: "1")
                 }
                 HStack{
                     ZStack(alignment: .topLeading) {
-                        RoundedTextField(text: $text2, backgroundColor: Color(UIColor.systemIndigo))
+                        RoundedTextField(text: $gameModel.text2, backgroundColor: Color(UIColor.systemIndigo))
                         TextNumber(number: "2")
                     }
-                    RoundedTextField(text: $text3, backgroundColor: Color.red)
-                    RoundedTextField(text: $text4, backgroundColor: Color.pink)
+                    RoundedTextField(text: $gameModel.text3, backgroundColor: Color.red)
+                    RoundedTextField(text: $gameModel.text4, backgroundColor: Color.pink)
+                    
                 }
-                RoundedTextField(text: $text5, backgroundColor: Color.red)
+                RoundedTextField(text: $gameModel.text5, backgroundColor: Color.red)
             }
             VStack(alignment: .leading) {
                 Text("1- A type of pet.")
                     .foregroundColor(Color.white)
                     .padding(.top, 25)
                 Text("2- A vechile.")
-                    .foregroundColor(Color(UIColor.systemGray4))
+                    .foregroundColor(Color.white)
             }
             Spacer()
+            if gameModel.isFirstResultTrue && gameModel.isSecondResultTrue {
+                HStack {
+                    Spacer()
+                    Text("YOU WIN 🎉").foregroundColor(.black)
+                    Spacer()
+                }.padding().background(Color.white)
+            }
         }.multilineTextAlignment(.center)
         .aspectRatio(contentMode: .fill)
         .frame(width: UIScreen.main.bounds.width)
         .background(Color.black)
         .ignoresSafeArea()
     }
+    
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView(text1: "")
+        ContentView()
     }
 }
 
